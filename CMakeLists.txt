@@ -36,3 +36,13 @@ foreach (name ${TEST_LIST})
 	add_executable (${target_name}  ${SRC_LIST} ${name})
 	target_link_libraries(${target_name} PRIVATE glfw OpenGL::GL)
 endforeach()
+
+set(RESOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resource")
+
+file(GLOB_RECURSE RESOURCE_FILES "${RESOURCE_DIR}/*")
+
+foreach(file ${RESOURCE_FILES})
+	string(REGEX MATCH ".*resource/.*" relative_path ${file})
+	string(REGEX REPLACE ".*resource/" "" file_relative_path ${relative_path})
+	configure_file(${file}  ${CMAKE_CURRENT_BINARY_DIR}/resource/${file_relative_path} COPYONLY)
+endforeach()
